@@ -14,6 +14,8 @@ import ListItemText from "@material-ui/core/ListItemText";
 import MailIcon from "@material-ui/icons/Mail";
 import HelpIcon from "@material-ui/icons/Help";
 import CreditCardIcon from "@material-ui/icons/CreditCard";
+import SettingsIcon from "@material-ui/icons/Settings";
+import { ROUTES } from "../navigation/routes";
 
 export const CardContext = createContext(null);
 
@@ -157,7 +159,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export const CardPage = () => {
+export const CardPage = ({ history }) => {
   const [cards, setCards] = useState(cardsData);
   const [clickedCards, setClickedCards] = useState([]);
   const [coverCards, setCoverCards] = useState(false);
@@ -193,12 +195,12 @@ export const CardPage = () => {
       if (card1.id === card2.id && card1.type !== card2.type) {
         setTimeout(() => {
           setRemovedCard(removedCards => [...removedCards, card1.id]);
-        }, 1000);
+        }, 4000);
       }
 
       setTimeout(() => {
         setCoverCards(true);
-      }, 1000);
+      }, 4000);
 
       setClickedCards([]);
     } else {
@@ -285,17 +287,23 @@ export const CardPage = () => {
           </List>
           <Divider />
           <List>
-            <ListItem button key={"Aide"}>
+            <ListItem button>
               <ListItemIcon>
                 <HelpIcon />
               </ListItemIcon>
               <ListItemText primary={"Aide"} />
             </ListItem>
-            <ListItem button key={"Contact"}>
+            <ListItem button>
               <ListItemIcon>
                 <MailIcon />
               </ListItemIcon>
               <ListItemText primary={"Contact"} />
+            </ListItem>
+            <ListItem button onClick={() => history.push(ROUTES.signin)}>
+              <ListItemIcon>
+                <SettingsIcon />
+              </ListItemIcon>
+              <ListItemText primary={"Administration"} />
             </ListItem>
           </List>
         </div>

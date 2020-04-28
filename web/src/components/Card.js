@@ -1,6 +1,8 @@
 import React, { useState, useContext, useEffect, useRef } from "react";
 import ReactCardFlip from "react-card-flip";
 import { CardContext } from "../pages/CardPage";
+import { FrontCard } from "./FrontCard";
+import { CARD_HEIGHT } from "../assets/dimens";
 
 export const Card = ({ card, cover }) => {
   const [isFlipped, setIsFlipped] = useState(false);
@@ -54,48 +56,11 @@ export const Card = ({ card, cover }) => {
           <h4>Memory</h4>
         </div>
 
-        {card.type === "image" ? (
-          <div
-            style={{
-              display: "flex",
-              height: CARD_HEIGHT,
-              ...styles.border
-            }}
-            onClick={clickHandler}
-          >
-            <img
-              src={card.data}
-              style={{
-                ...styles.image,
-                ...styles.border
-              }}
-              alt={"back"}
-            />
-          </div>
-        ) : (
-          <div
-            style={{
-              display: "flex",
-              flex: 1,
-              height: CARD_HEIGHT - 4,
-              justifyContent: "center",
-              alignItems: "center",
-              border: "2px solid tomato",
-              cursor: "pointer",
-              background: "linear-gradient(to right bottom, #F6D285, #BBF0F3)",
-              ...styles.border
-            }}
-            onClick={clickHandler}
-          >
-            <p style={{ textAlign: "center" }}>{card.data}</p>
-          </div>
-        )}
+        <FrontCard card={card} onClick={clickHandler} />
       </ReactCardFlip>
     </div>
   );
 };
-
-const CARD_HEIGHT = 250;
 
 const styles = {
   image: {

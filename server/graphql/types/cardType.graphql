@@ -1,0 +1,16 @@
+type Card {
+    cardId: Int
+    _id: ID!
+    data: String
+    set: String
+    type: String
+}
+
+type Query {
+    getCards: [Card]
+    getCardBySet(set: String): [Card]
+}
+
+type Mutation {
+    addCard(data: String!, set: String!, type: String!): Card
+}

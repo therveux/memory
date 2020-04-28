@@ -1,29 +1,18 @@
 const express = require("express");
-const { ApolloServer, gql } = require("apollo-server-express");
+const { ApolloServer } = require("apollo-server-express");
+const { typeDefs, resolvers } = require("./graphql");
 require("./database");
 
-const { Card } = require("./models/cards");
+const server = new ApolloServer({
+  typeDefs,
+  resolvers,
+  introspection: true,
+  playground: true
+});
 
-const typeDefs = gql`
-  type Card {
-    type: String
-    data: String
-    id: ID!
-  }
-  type Query {
-    getCards: [Card]
-  }
-`;
-
-const resolvers = {
-  Query: {
-    getCards: async () => await Card.find({}).exec()
-  }
-};
-
-const server = new ApolloServer({ typeDefs, resolvers });
 const app = express();
-server.applyMiddleware({ app });
+
+server.applyMiddleware({ app, cors: true });
 
 app.listen({ port: 4000 }, () =>
   console.log(`🚀 Server ready at http://localhost:4000${server.graphqlPath}`)
