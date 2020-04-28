@@ -1,12 +1,17 @@
 const AWS = require("aws-sdk");
 const path = require("path");
 
-AWS.config.loadFromPath(path.resolve(__dirname, "config.json"));
-const s3 = new AWS.S3({ apiVersion: "2006-03-01" });
+let tempConfig = AWS.config;
+tempConfig.credentials = {
+  accessKeyId: process.env.ACCESS_KEY,
+  secretAccessKey: process.env.ACCESS_SECRET
+};
+tempConfig.region = process.env.REGION;
+const s3 = new AWS.S3(tempConfig);
 
 exports.uploadFile = async (fileStream, fileName) => {
   const uploadParams = {
-    Bucket: "memorybucket",
+    Bucket: process.env.BUCKET,
     Key: fileName,
     Body: fileStream,
     ACL: "public-read-write",
